@@ -1,5 +1,7 @@
 # CyberHoot Leaderboard
 
+**Live:** https://cyberhoot-leaderboard.netlify.app — auto-refreshes from CyberHoot every 4 hours.
+
 A public web leaderboard that ranks **every employee across all hotel properties by their
 CyberHoot HootScore**. It shows only **name · property · HootScore · level** — no emails or
 other personal details. A build step pulls each hotel's data from the CyberHoot API and
@@ -11,8 +13,8 @@ writes one aggregated JSON file; a dependency-free static page renders it.
   but note that employee names and their training scores *are* visible to anyone with the
   URL. If you later want it gated, Netlify offers site password protection on paid plans, or
   I can add a lightweight passcode.
-- **Keys never ship to the browser.** The 34 per-hotel API keys are read only at build time
-  (from an environment variable in production). The browser only loads the aggregated,
+- **Keys never ship to the browser.** The 35 per-environment API keys (34 hotels + Corporate)
+  are read only at build time (from an environment variable in production). The browser loads the
   PII-free `leaderboard.json`.
 
 ## How it works
@@ -44,44 +46,44 @@ npm run serve   # http://localhost:4173
 
 Or `npm start` to fetch once and then serve.
 
-## Deploy to Netlify (automated — GitHub-connected)
+## Hosting (already live on Netlify)
 
-The site auto-refreshes in the cloud: Netlify builds from a private GitHub repo, running
-`node scripts/fetch-leaderboard.mjs` (which re-pulls from CyberHoot) on each build, and a
-scheduled function triggers a rebuild every few hours. **No secrets in the repo** — the keys
-and exclusions are Netlify environment variables.
+The site is deployed and auto-refreshing — you don't need to set it up again. Details:
 
-### One-time setup
+- **Live URL:** https://cyberhoot-leaderboard.netlify.app
+- **Repo:** `github.com/charlestownehotels/cyberhoot-leaderboard` (private), branch `main`.
+- **Netlify site:** `cyberhoot-leaderboard` (team *Charlestowne Hotels*), git-connected. Build
+  runs `node scripts/fetch-leaderboard.mjs` and publishes `public/` (see `netlify.toml`).
+- **Secrets live in Netlify env vars, never in the repo:**
+  - `CYBERHOOT_HOTELS` — minified JSON of all 35 hotel keys (contents of `config/hotels.json`).
+  - `CYBERHOOT_EXCLUDE` — comma-separated emails to omit from the board.
+  - `BUILD_HOOK_URL` — the build hook the scheduled function pings.
+- **Auto-refresh:** `netlify/functions/refresh.mjs` (cron `0 */4 * * *`) POSTs to the build
+  hook every 4 hours → Netlify rebuilds → re-pulls from CyberHoot.
 
-1. **Push to a private GitHub repo** (`.gitignore` already excludes all keys/PII):
-   ```bash
-   git remote add origin git@github.com:charlestownehotels/cyberhoot-leaderboard.git
-   git push -u origin main
-   ```
-2. **Netlify → Add new site → Import an existing project → GitHub →** pick the repo.
-   Build settings come from `netlify.toml` (build `node scripts/fetch-leaderboard.mjs`,
-   publish `public`).
-3. **Set environment variables** (Site configuration → Environment variables):
-   - `CYBERHOOT_HOTELS` = the JSON array of hotel keys (contents of `config/hotels.json`).
-     Easiest: `npx netlify-cli env:set CYBERHOOT_HOTELS "$(cat config/hotels.json)"`
-   - `CYBERHOOT_EXCLUDE` = comma-separated emails to omit (e.g. `mspangler@charlestownehotels.com`).
-4. **Deploy** (Netlify builds automatically on the import / next push).
-5. **Auto-refresh:** Site configuration → Build & deploy → **Build hooks → Add build hook**,
-   copy the URL, and add env var `BUILD_HOOK_URL` = that URL. The scheduled function
-   `netlify/functions/refresh.mjs` (cron `0 */4 * * *`) then triggers a rebuild every 4 hours.
-   Change the cadence by editing `config.schedule` in that file.
+### Operating it
 
-### Updating
+- **Change the design or logic:** edit files, `git push` to `main` → Netlify rebuilds.
+- **Force a refresh now:** Netlify UI *Deploys → Trigger deploy*, or
+  `npx netlify-cli api createSiteBuild --data '{"site_id":"3559bf93-14f2-4d4d-9846-54973657dd70"}'`.
+- **Exclude more people:** update the `CYBERHOOT_EXCLUDE` env var (comma-separated), then redeploy.
+- **Rotate / add a hotel key:** update `CYBERHOOT_HOTELS` (paste the new `config/hotels.json`), redeploy.
+- **Change cadence:** edit `config.schedule` in `netlify/functions/refresh.mjs` and push.
+- **Custom domain:** Netlify → Domain management (e.g. `leaderboard.charlestownehotels.com`).
 
-Push to `main` (for code/design changes) — Netlify rebuilds. Data refreshes on its own via
-the scheduled rebuild; no manual step. If you rotate an API key, update the `CYBERHOOT_HOTELS`
-env var and trigger a redeploy.
+> **Env-var gotcha:** set Netlify env vars *without* `--scope` — a scoped set did not reach the
+> production build. `env:get`/`env:list` default to the "dev" context and hide them; verify with
+> `npx netlify-cli env:list --context production --json`.
 
-### Alternative: manual drag-and-drop
+### Re-running / first-time setup (reference)
 
-Prefer no Git? Run `npm run pack` (refreshes data + builds `leaderboard-site.zip`) and drag
-the `public/` folder or the zip onto Netlify's manual-deploy drop zone. Keys stay entirely on
-your machine, but there's no automatic refresh — re-drop to update.
+If the site ever needs rebuilding from scratch: create a private GitHub repo, push this folder,
+import it in Netlify, set the three env vars above, add a build hook, and set `BUILD_HOOK_URL`.
+
+### Alternative: manual drag-and-drop (no Git)
+
+`npm run pack` refreshes data + builds `leaderboard-site.zip`; drag the `public/` folder or the
+zip onto Netlify's manual-deploy drop zone. Keys stay on your machine, but there's no auto-refresh.
 
 ## Project layout
 

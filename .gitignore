@@ -16,3 +16,6 @@ leaderboard-site.zip
 node_modules/
 npm-debug.log*
 .DS_Store
+
+# Local Netlify folder
+.netlify
