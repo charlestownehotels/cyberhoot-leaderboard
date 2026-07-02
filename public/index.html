@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>CyberHoot Leaderboard · Charlestowne Hotels</title>
+    <link rel="icon" href="ch-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&family=Abhaya+Libre:wght@400;700&family=Old+Standard+TT:ital@1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <div class="brand">
+          <img class="brand-logo" src="ch-logo.png" alt="Charlestowne Hotels" />
+          <span class="brand-divider" aria-hidden="true"></span>
+          <div>
+            <p class="eyebrow">Security Awareness Program</p>
+            <h1><span class="h-bold">CyberHoot</span> <span class="h-light">Leaderboard</span></h1>
+          </div>
+        </div>
+        <dl class="stats" id="stats"></dl>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="podium" id="podium" aria-label="Top three"></section>
+
+      <div class="live-banner">
+        <span class="live-pill"><span class="dot-live"></span> Live</span>
+        <span class="live-text">This is a <b>running leaderboard</b> — standings update as employees
+          complete training, not a monthly snapshot. Last refreshed <b id="liveTime">…</b>.</span>
+      </div>
+
+      <details class="legend" id="legend" open>
+        <summary>
+          <span>Levels &amp; scoring — how the leaderboard works</span>
+          <span class="chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="legend-body" id="legendBody"></div>
+      </details>
+
+      <section class="controls">
+        <input
+          type="search"
+          id="search"
+          class="search"
+          placeholder="Search name or property…"
+          autocomplete="off"
+          aria-label="Search"
+        />
+        <select id="hotelFilter" class="select" aria-label="Filter by property"></select>
+        <span class="result-count" id="resultCount"></span>
+      </section>
+
+      <div class="table-scroll">
+        <table class="board" id="board">
+          <thead>
+            <tr id="headRow"></tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+
+      <section class="hotels" id="hotels" aria-label="Property averages"></section>
+    </main>
+
+    <footer class="site-footer wrap">
+      <span id="updated"></span>
+      <span id="errors" class="errors"></span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

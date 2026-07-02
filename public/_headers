@@ -1,0 +1,8 @@
+# Netlify headers (respected by manual drag-and-drop deploys).
+/*
+  X-Robots-Tag: noindex, nofollow
+  Referrer-Policy: no-referrer
+
+# Always fetch fresh leaderboard data, never a stale cached copy.
+/data/*
+  Cache-Control: no-store

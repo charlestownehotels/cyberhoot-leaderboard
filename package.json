@@ -1,0 +1,17 @@
+{
+  "name": "cyberhoot-leaderboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Internal leaderboard ranking employees across all CyberHoot hotel environments by HootScore.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "setup": "node scripts/build-hotels-config.mjs",
+    "fetch": "node scripts/fetch-leaderboard.mjs",
+    "serve": "node server.mjs",
+    "start": "node scripts/fetch-leaderboard.mjs && node server.mjs",
+    "pack": "node scripts/fetch-leaderboard.mjs && rm -f leaderboard-site.zip && cd public && zip -r -X ../leaderboard-site.zip . && cd .. && echo '\\nReady: drag public/ folder OR leaderboard-site.zip onto Netlify.'"
+  }
+}

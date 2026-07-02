@@ -1,0 +1,21 @@
+# Netlify configuration for the CyberHoot Leaderboard.
+#
+# The build runs the fetch job, which reads the API keys from the
+# CYBERHOOT_HOTELS environment variable and writes public/data/leaderboard.json.
+# Netlify then publishes the static public/ folder. No keys live in the repo.
+
+[build]
+  command = "node scripts/fetch-leaderboard.mjs"
+  publish = "public"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Don't let the leaderboard be indexed by search engines.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

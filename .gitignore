@@ -1,0 +1,18 @@
+# Secrets & PII — kept out of the repo; provided to Netlify as env vars instead.
+config/hotels.json
+config/extra-hotels.json
+config/exclude.json
+
+# Generated data — contains employee names + scores.
+public/data/*.json
+
+# Packaged deploy artifact.
+leaderboard-site.zip
+
+# Source spreadsheet of API keys.
+*.xlsx
+
+# Node
+node_modules/
+npm-debug.log*
+.DS_Store
