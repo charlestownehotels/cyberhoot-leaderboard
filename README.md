@@ -8,6 +8,9 @@ other personal details. A build step pulls each hotel's data from the CyberHoot 
 writes one aggregated JSON file; a dependency-free static page renders it.
 
 - **No dependencies, no build tooling.** Requires only Node.js ≥ 18.
+- **Mobile-friendly.** On phones the ranking table reflows into stacked cards (rank · name ·
+  property on top, score · level below) with no sideways scrolling; the header, podium, and
+  scoring explainer adapt to small screens.
 - **No login.** It's a public page. Because only names + property + score are published (no
   emails/contact info), and the page is marked `noindex`, this is a reasonable trade-off —
   but note that employee names and their training scores *are* visible to anyone with the
@@ -28,7 +31,11 @@ CyberHoot APIs.xlsx ─setup─▶ config/hotels.json ─┐
 - **Base URL:** `https://cmitsolutions.cyberhoot.com/api` (CMIT Solutions MSP portal; each
   hotel is a *customer* whose API key auto-scopes to it).
 - **Auth:** `Authorization: Bearer <apiKey>`.
-- **Ranking:** `GET /hoot-ranks/user/user-rankings.php`, re-sorted by `hoot_score`.
+- **Ranking:** `GET /hoot-ranks/user/user-rankings.php`, re-sorted by `hoot_score`. Ties break, in
+  order, by Level → most assignments completed → fewest late submissions → fewest quiz attempts →
+  name (A–Z). This is one total ordering over everyone, so a whole group sharing a score is ranked
+  consistently, not in isolated pairs. The page's collapsible "How scoring & levels work" panel
+  spells out the same ladder for end users.
 - **Property label:** each employee is labeled by the CyberHoot environment their key belongs
   to. **Corporate** is its own environment (customer id 1101, "Charlestowne Hotels") whose key
   isn't in the spreadsheet — it's added via `config/extra-hotels.json` (see below).
