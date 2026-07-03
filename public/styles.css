@@ -198,9 +198,26 @@ body {
 }
 
 .legend-note { margin: 16px 0 0; border-top: 1px dashed var(--line); padding-top: 14px; }
-.rank-how { margin: 0 0 10px; font-family: var(--font-ui); font-size: 0.88rem; color: var(--ink); background: var(--accent-soft); border-left: 3px solid var(--brand); border-radius: 8px; padding: 10px 13px; }
-.rank-fyi { margin: 0; font-family: var(--font-body); font-size: 0.92rem; color: var(--ink-soft); }
+.rank-how { margin: 0 0 12px; font-family: var(--font-ui); font-size: 0.88rem; color: var(--ink); background: var(--accent-soft); border-left: 3px solid var(--brand); border-radius: 8px; padding: 11px 14px; }
+.rank-fyi { margin: 14px 0 0; font-family: var(--font-body); font-size: 0.92rem; color: var(--ink-soft); }
 .legend-note b { color: var(--ink); }
+
+/* Spelled-out tie-break ladder */
+.rank-steps { margin: 0; padding: 0 2px; list-style: none; counter-reset: rstep; }
+.rank-steps li {
+  position: relative; padding: 10px 0 10px 42px; border-top: 1px solid var(--line);
+  font-family: var(--font-body); font-size: 0.94rem; color: var(--ink-soft);
+}
+.rank-steps li:first-child { border-top: 0; }
+.rank-steps li b { color: var(--ink); font-family: var(--font-ui); font-weight: 700; }
+.rank-steps li::before {
+  counter-increment: rstep; content: counter(rstep);
+  position: absolute; left: 0; top: 9px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--brand);
+  font-family: var(--font-ui); font-weight: 800; font-size: 0.82rem;
+  display: flex; align-items: center; justify-content: center;
+}
 
 @media (max-width: 720px) { .concept-grid { grid-template-columns: 1fr; } }
 
@@ -285,4 +302,67 @@ body {
   .pod.p1 { transform: none; }
   .stats { width: 100%; }
   .stats div { flex: 1; min-width: 0; }
+}
+
+/* ---------- Mobile (≤ 640px) ---------- */
+@media (max-width: 640px) {
+  .wrap { width: 94vw; }
+
+  /* Compact header so brand + title never overflow narrow screens */
+  .site-header { padding: 22px 0 54px; }
+  .brand { gap: 14px; }
+  .brand-logo { height: 54px; }
+  .brand-divider { height: 46px; }
+  .site-header h1 { font-size: 1.35rem; }
+  .eyebrow { font-size: 0.64rem; letter-spacing: 0.16em; }
+  .stats { gap: 10px; }
+  .stats div { min-width: 0; padding: 9px 8px; }
+  .stats dd { font-size: 1.3rem; }
+
+  /* Tighter, still-celebratory podium */
+  .podium { gap: 10px; margin-top: -30px; }
+  .pod { padding: 15px 16px; }
+  .pod .name { font-size: 1.14rem; margin-top: 6px; }
+  .pod-score { margin-top: 8px; }
+  .pod-score b { font-size: 1.7rem; }
+
+  /* Full-width controls that stack */
+  .controls { gap: 10px; }
+  .search { flex: 1 1 100%; }
+  .select { flex: 1 1 100%; max-width: none; }
+  .result-count { margin-left: 0; }
+
+  /* Turn the ranking table into a tap-friendly card list (no sideways scroll) */
+  .table-scroll { overflow-x: visible; }
+  .board, .board tbody, .board tbody tr, .board tbody td { display: block; }
+  .board thead { display: none; }
+  .board tbody td { padding: 0; border: 0; white-space: normal; }
+  .board tbody tr {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "rank name  score"
+      "rank prop  level";
+    column-gap: 12px;
+    row-gap: 3px;
+    align-items: center;
+    padding: 13px 15px;
+    border-bottom: 1px solid #eef1f6;
+  }
+  .board tbody tr:last-child { border-bottom: 0; }
+  .board .rankcell   { grid-area: rank; width: auto; justify-self: center; }
+  .board .name       { grid-area: name; font-size: 1.04rem; line-height: 1.25; }
+  .board .hotel      { grid-area: prop; font-size: 0.82rem; }
+  .board .score-cell { grid-area: score; justify-self: end; min-width: 0; }
+  .board .levelcell  { grid-area: level; justify-self: end; }
+  .rankwrap { min-width: 0; }
+  .rankwrap .rk { font-size: 1.05rem; }
+  .rankwrap .medal { font-size: 1.35rem; }
+  .scorebox { min-width: 0; align-items: flex-end; }
+  .scorebar { width: 62px; }
+
+  /* Property cards go single-column */
+  .hotel-grid { grid-template-columns: 1fr; }
+  .legend summary { padding: 13px 15px; font-size: 0.9rem; }
+  .legend-body { padding: 4px 15px 16px; }
 }

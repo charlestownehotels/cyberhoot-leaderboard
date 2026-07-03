@@ -208,12 +208,25 @@ function renderLegend() {
       ${rows}
     </div>
     <div class="legend-note">
-      <p class="rank-how"><b>How the board ranks:</b> by HootScore, highest first. When two people
-        have the same score, the tie is broken by Level, then by who has completed the most training
-        on time.</p>
+      <p class="rank-how"><b>How the board ranks:</b> everyone is placed in one single list. The six
+        rules below are applied in order, and each one <b>only</b> breaks ties left by the rule above
+        it. So when a group of people share the same HootScore (say, everyone at 100), they're all
+        sorted against one another by the next rule — top to bottom, as one group, not compared in
+        isolated pairs. The person who ends up highest genuinely beat everyone else tied with them.</p>
+      <ol class="rank-steps">
+        <li><b>HootScore</b> — highest first. This is the primary ranking; everything below only
+          matters when scores are equal.</li>
+        <li><b>Level</b> — higher owl rank wins, from <b>Wise Owl Sage</b> down to <b>Fluffy
+          Hatchling</b> (more training completed over time).</li>
+        <li><b>Most assignments completed</b> — still tied? Whoever has finished more training.</li>
+        <li><b>Fewest late submissions</b> — then whoever turned their training in on time more often.</li>
+        <li><b>Fewest quiz attempts</b> — then whoever needed fewer tries to pass.</li>
+        <li><b>Name (A&ndash;Z)</b> — a final alphabetical tiebreaker, so the order is always stable
+          and predictable when everything else is identical.</li>
+      </ol>
       <p class="rank-fyi">Score and level are independent — a Wise Owl Sage can score 85 while an
         Owlet Novice scores 100. Only users in compliance appear, since CyberHoot assigns a HootScore
-        once assignments are complete.</p>
+        once all assignments are complete.</p>
     </div>`;
 }
 
@@ -325,7 +338,7 @@ function renderTable() {
         <td class="name">${esc(u.name)}</td>
         <td class="hotel">${esc(u.property)}</td>
         <td class="num score-cell">${scoreCell(u.hootScore)}</td>
-        <td>${badge(u.hootRank)}</td>
+        <td class="levelcell">${badge(u.hootRank)}</td>
       </tr>`;
     })
     .join('');
