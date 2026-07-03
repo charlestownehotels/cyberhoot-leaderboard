@@ -32,15 +32,14 @@
     <main class="wrap">
       <section class="podium" id="podium" aria-label="Top three"></section>
 
-      <div class="live-banner">
-        <span class="live-pill"><span class="dot-live"></span> Live</span>
-        <span class="live-text">This is a <b>running leaderboard</b> — standings update as employees
-          complete training, not a monthly snapshot. Last refreshed <b id="liveTime">…</b>.</span>
-      </div>
+      <p class="live-line">
+        <span class="dot-live"></span>
+        <b>Live</b> · standings update as employees train · updated <span id="liveTime">…</span>
+      </p>
 
-      <details class="legend" id="legend" open>
+      <details class="legend" id="legend">
         <summary>
-          <span>Levels &amp; scoring — how the leaderboard works</span>
+          <span>How scoring &amp; levels work</span>
           <span class="chev" aria-hidden="true">▾</span>
         </summary>
         <div class="legend-body" id="legendBody"></div>

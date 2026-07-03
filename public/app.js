@@ -188,21 +188,11 @@ function renderLegend() {
   ).join('');
 
   $('legendBody').innerHTML = `
-    <p class="legend-lead">Each person shows two separate things:</p>
-    <div class="concept-grid">
-      <div class="concept">
-        <div class="concept-h"><span class="ci">📊</span> HootScore <span class="tag tag-perf">Performance</span></div>
-        <p>CyberHoot's 0–100 measure of how well someone engages with training — weighted across
-           phishing (40%), videos (40%), policies (15%) and optional (5%), reduced for real
-           phishing failures. <b>The board ranks by this.</b></p>
-        <div class="scale">${scaleSegs}</div>
-      </div>
-      <div class="concept">
-        <div class="concept-h"><span class="ci">🏅</span> Level <span class="tag tag-exp">Experience</span></div>
-        <p>Six owl ranks a user climbs by completing more training over time — independent of the
-           score. The more assignments completed, the higher the rank:</p>
-      </div>
-    </div>
+    <p class="legend-lead">Two independent things per person: a <b>HootScore</b> — CyberHoot's 0–100
+      measure of training engagement (weighted across phishing, videos and policies; the board ranks
+      by this) — and a <b>Level</b>, the owl rank earned by completing more training over time,
+      regardless of score.</p>
+    <div class="scale"><span class="scale-cap">HootScore</span>${scaleSegs}</div>
     <div class="level-list">
       <div class="lhead"><span>Level</span><span>Assignments completed</span><span>What it means</span></div>
       ${rows}
