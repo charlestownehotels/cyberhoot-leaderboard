@@ -190,8 +190,9 @@ function renderLegend() {
   $('legendBody').innerHTML = `
     <p class="legend-lead">Two independent things per person: a <b>HootScore</b> — CyberHoot's 0–100
       measure of training engagement (weighted across phishing, videos and policies; the board ranks
-      by this) — and a <b>Level</b>, the owl rank earned by completing more training over time,
-      regardless of score.</p>
+      by this) — and a <b>Level</b>, the owl rank earned by completing more training over time. The
+      two don't move together: a <b>Wise Owl Sage</b> can sit at 85 while an <b>Owlet Novice</b>
+      hits 100.</p>
     <div class="scale"><span class="scale-cap">HootScore</span>${scaleSegs}</div>
     <div class="level-list">
       <div class="lhead"><span>Level</span><span>Assignments completed</span><span>What it means</span></div>
@@ -214,10 +215,9 @@ function renderLegend() {
         <li><b>Name (A&ndash;Z)</b> — a final alphabetical tiebreaker, so the order is always stable
           and predictable when everything else is identical.</li>
       </ol>
-      <p class="rank-fyi">Score and level are independent — a Wise Owl Sage can score 85 while an
-        Owlet Novice scores 100. Only users in compliance appear, since CyberHoot assigns a HootScore
-        once all assignments are complete.</p>
-    </div>`;
+    </div>
+    <p class="legend-foot">Only employees in compliance appear — CyberHoot assigns a HootScore once
+      someone's assignments are complete.</p>`;
 }
 
 function renderProperties() {

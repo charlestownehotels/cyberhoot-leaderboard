@@ -148,12 +148,21 @@ body {
 }
 .legend summary {
   cursor: pointer; list-style: none;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 18px; font-weight: 700; font-size: 0.95rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 13px 16px; font-weight: 700; font-size: 0.95rem;
+  transition: background 0.15s;
 }
 .legend summary::-webkit-details-marker { display: none; }
-.legend .chev { transition: transform 0.2s; color: var(--ink-faint); }
-.legend[open] .chev { transform: rotate(180deg); }
+/* Collapsed: read as a tappable button so it's obviously expandable */
+.legend:not([open]) summary { background: var(--accent-soft); color: var(--brand); }
+.legend summary:hover { background: var(--accent-soft); }
+.legend .chev {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #fff; color: var(--brand); font-size: 0.72rem;
+  box-shadow: var(--shadow-sm); transition: transform 0.2s, background 0.15s;
+}
+.legend[open] .chev { transform: rotate(180deg); background: var(--accent-soft); box-shadow: none; }
 .legend-body { padding: 4px 18px 18px; }
 .legend-lead { margin: 2px 0 14px; font-family: var(--font-body); font-size: 0.98rem; line-height: 1.5; color: var(--ink-soft); }
 .legend-lead b { color: var(--ink); font-family: var(--font-ui); font-weight: 700; }
@@ -182,8 +191,8 @@ body {
 
 .legend-note { margin: 16px 0 0; border-top: 1px dashed var(--line); padding-top: 14px; }
 .rank-how { margin: 0 0 12px; font-family: var(--font-ui); font-size: 0.88rem; color: var(--ink); background: var(--accent-soft); border-left: 3px solid var(--brand); border-radius: 8px; padding: 11px 14px; }
-.rank-fyi { margin: 14px 0 0; font-family: var(--font-body); font-size: 0.92rem; color: var(--ink-soft); }
 .legend-note b { color: var(--ink); }
+.legend-foot { margin: 14px 2px 0; font-size: 0.82rem; color: var(--ink-faint); }
 
 /* Spelled-out tie-break ladder */
 .rank-steps { margin: 0; padding: 0 2px; list-style: none; counter-reset: rstep; }
